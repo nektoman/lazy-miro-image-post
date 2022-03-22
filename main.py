@@ -12,6 +12,7 @@ bot = telebot.TeleBot(config.get("tg", "token"))
 
 
 def send_file(file):
+    #Можно попробовать перейти на URL ссылку на изображение
     with open("image.jpg", 'wb') as new_file:
         new_file.write(file)
 
