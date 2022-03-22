@@ -3,6 +3,7 @@ import requests
 import json
 import time
 import configparser
+import os
 
 config = configparser.ConfigParser()
 config.read('miro_bot.cfg')
@@ -35,12 +36,16 @@ def send_file(file):
     data = {
         'data': json.dumps(jdata)
     }
+    rbfile = open('image.jpg', 'rb')
     files = {
-        'resource': ('image.jpg', open('image.jpg', 'rb'), 'image/jpg'),
+        'resource': ('image.jpg', rbfile, 'image/jpg'),
     }
     response = requests.post(url, headers=headers, files=files, json=jdata)
     #print(response.text)
     #print(response.request.body)
+
+    rbfile.close()
+    os.remove('image.jpg')
 
 
 @bot.message_handler(content_types=['photo'])
