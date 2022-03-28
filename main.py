@@ -1,6 +1,5 @@
 import telebot
 import requests
-import json
 import time
 import configparser
 import os
@@ -12,7 +11,6 @@ bot = telebot.TeleBot(config.get("tg", "token"))
 
 
 def send_file(file):
-    #Можно попробовать перейти на URL ссылку на изображение
     with open("image.jpg", 'wb') as new_file:
         new_file.write(file)
 
@@ -21,29 +19,13 @@ def send_file(file):
         "Accept": "application/json",
         "Authorization": "Bearer" + config.get("miro", "token")
     }
-    jdata = {
-        "title": "image.jpg",
-        "position": {
-            "x": 100,
-            "y": 200,
-            "origin": "center"
-        },
-        "geometry": {
-            "width": 100,
-            "height": 100,
-            "rotation": 0
-        }
-    }
-    data = {
-        'data': json.dumps(jdata)
-    }
     rbfile = open('image.jpg', 'rb')
     files = {
         'resource': ('image.jpg', rbfile, 'image/jpg'),
     }
-    response = requests.post(url, headers=headers, files=files, json=jdata)
-    #print(response.text)
-    #print(response.request.body)
+    response = requests.post(url, headers=headers, files=files)
+    print(response.text)
+    print(response.request.body)
 
     rbfile.close()
     os.remove('image.jpg')
